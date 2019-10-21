@@ -3,10 +3,7 @@
 import users from './users.js';
 
 //1
-const getUserNames = users =>
-  users.map(user => {
-    return user.name;
-  });
+const getUserNames = users => users.map(({ name }) => name);
 console.log(getUserNames(users));
 // [ 'Moore Hensley', 'Sharlene Bush', 'Ross Vazquez', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony' ]
 //2
@@ -28,13 +25,13 @@ console.log(getUserWithEmail(users, 'shereeanthony@kog.com')); // {объект 
 console.log(getUserWithEmail(users, 'elmahead@omatom.com')); // {объект пользователя Elma Head}
 //6
 const getUsersWithAge = (users, min, max) =>
-  users.filter(user => user.age > min && user.age < max);
+  users.filter(({ age }) => age > min && age < max);
 console.log(getUsersWithAge(users, 20, 30)); // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
 console.log(getUsersWithAge(users, 30, 40));
 // [объект Moore Hensley, объект Sharlene Bush, объект Blackburn Dotson, объект Sheree Anthony]
 //7
 const calculateTotalBalance = users =>
-  users.reduce((acc, user) => acc + user.balance, 0);
+  users.reduce((acc, { balance }) => acc + balance, 0);
 console.log(calculateTotalBalance(users)); // 20916
 //8
 const getUsersWithFriend = (users, friendName) =>
@@ -56,13 +53,10 @@ console.log(getNamesSortedByFriendsCount(users));
 // 10
 const getSortedUniqueSkills = users =>
   users
-    .reduce((allSkills, { skills }) => {
-      allSkills.push(...skills);
-      return allSkills;
-    }, [])
+    .reduce((allSkills, { skills }) => [...allSkills, ...skills], [])
     .filter((currentValue, index, array) => {
       return array.indexOf(currentValue) === index;
     })
-    .sort();
+    .sort((a, b) => a.localeCompare(b, 'en'));
 console.log(getSortedUniqueSkills(users));
 // [ 'adipisicing', 'amet', 'anim', 'commodo', 'culpa', 'elit', 'ex', 'ipsum', 'irure', 'laborum', 'lorem', 'mollit', 'non', 'nostrud', 'nulla', 'proident', 'tempor', 'velit', 'veniam' ]
